@@ -8,6 +8,12 @@ ul.nav li {
 }
 
 ul.nav li a {
+  color: blue;
   padding: 0 0 0 10px;
   text-decoration: none;
+}
+
+ul.nav li a:hover {
+  cursor: pointer;
+  color: lightblue;
 }
