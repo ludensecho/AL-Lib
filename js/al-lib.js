@@ -14,32 +14,14 @@ var locationOfNav = "";
 var useHrefNames = false;
 
 //AJAX array handler variables
+//Location to load from
 var locationLoader = [];
+//Location to load to
+var toLoad = [];
 //AJAX array handler variables end
 
-//Runs AJAX and loads pages.
+//This function can be overridden by using loadArrayByNumber or loadArraysToPage
 $(document).ready(function(){
-  loadAJAX();
-});
-
-//Load AJAX function called above ^
-/*
-function loadAJAX(location){
-  $(location).load(pageArray[1]);
-  $(locationOfNav).click(function() {
-    var page = $(this).attr('href');
-    if(useHrefNames){
-      $(location).load(pageArray[0] + page + ".php");
-    }else {
-      $(location).load(pageArray[page]);
-    }
-    return false;
-  });
-}
-*/
-
-//Load AJAX without params
-function loadAJAX(){
   $('.ajax-content').load(pageArray[1]);
   $(locationOfNav).click(function() {
     var page = $(this).attr('href');
@@ -50,13 +32,47 @@ function loadAJAX(){
     }
     return false;
   });
-}
+})
 
 //AJAX array handler
 //Location to load to
-function addLocationLoader(location){
-
+function addLocationToLoad(location, toLoadTo){
+  if(checkIfSynced()){
+    locationLoader.push(location);
+    toLoad.push(toLoadTo);
+    sendToLog("Added item " + location + " to list.");
+  }else {
+    sendToLog("Did not add item " + location + " to list.");
+  }
 }
+
+function checkIfSynced(){
+  //TODO: Find a way to figure out if arrays are truly synced
+  //Check if arrays are synced
+  if(locationLoader.length == toLoad.length){
+    sendToLog("Sync: OK");
+    return true;
+  }else {
+    sendToLog("Sync: ERR");
+    return false;
+  }
+}
+
+function loadArraysToPage(){
+  if(checkIfSynced()){
+    for(i = 0; i < locationLoader.length; i++){
+      $(toLoad[i]).load(locationLoader[i]);
+      sendToLog("Loaded " + locationLoader[i] + " to " + toLoad[i]);
+    }
+  }
+}
+
+function loadArrayByNumber(id){
+  $(toLoad[id]).load(locationLoader[id]);
+  sendToLog("Loaded array item from id of " + id);
+}
+
+
 //AJAX array handler end
 
 //Adds a page to the pageArray

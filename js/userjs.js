@@ -1,9 +1,9 @@
-var pages = [".php", "index", "about"]
+var locations = ["_content/", "index.php", "about.php"];
+var container = ".ajax-content";
 
-addPageToArray(pages[1] + pages[0]);
-addPageToArray(pages[2] + pages[0]);
+for(i = 1; i < locations.length; i++){
+  locations[i] = locations[0] + locations[i];
+  addLocationToLoad(locations[i], container);
+}
 
-setLocationOfNav(".nav");
-setUseHrefNames(true);
-
-//printPageArray();
+loadArrayByNumber(0);
